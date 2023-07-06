@@ -1,98 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Three.js Example - Touch Rotation</title>
-  <style>
-    body { margin: 0; }
-    canvas { display: block; }
-  </style>
-</head>
-<body>
-  <script src="https://threejs.org/build/three.js"></script>
-  <script>
-    // シーンを作成
-    var scene = new THREE.Scene();
-
-    // カメラを作成
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
-
-    // レンダラーを作成
-    var renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    // ジオメトリを作成
-    var geometry = new THREE.BoxGeometry();
-
-    // マテリアルを作成
-    var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-    // メッシュを作成
-    var cube = new THREE.Mesh(geometry, material);
-
-    // シーンにメッシュを追加
-    scene.add(cube);
-
-    // タッチ操作のための変数
-    var touchStartX = 0;
-    var touchStartY = 0;
-    var lon = 0;
-    var lat = 0;
-
-    // タッチ開始時の処理
-    function onTouchStart(event) {
-      event.preventDefault();
-
-      touchStartX = event.touches[0].pageX;
-      touchStartY = event.touches[0].pageY;
-    }
-
-    // タッチ移動時の処理
-    function onTouchMove(event) {
-      event.preventDefault();
-
-      var touchX = event.touches[0].pageX;
-      var touchY = event.touches[0].pageY;
-
-      lon -= (touchX - touchStartX) * 0.1;
-      lat += (touchY - touchStartY) * 0.1;
-
-      touchStartX = touchX;
-      touchStartY = touchY;
-    }
-
-    // ウィンドウのリサイズ時の処理
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+  <head>
+    <meta charset="UTF-8">
+    <title>Three.js GLTF Example</title>
+    <style>
+      body { margin: 0; }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+      // シーンを作成
+      const scene = new THREE.Scene();
+      
+      // カメラを作成
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 5;
+      
+      // レンダラーを作成
+      const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    // タッチイベントのリスナーを追加
-    document.addEventListener('touchstart', onTouchStart, false);
-    document.addEventListener('touchmove', onTouchMove, false);
-
-    // ウィンドウリサイズイベントのリスナーを追加
-    window.addEventListener('resize', onWindowResize, false);
-
-    // アニメーションループ
-    function animate() {
-      requestAnimationFrame(animate);
-
-      // 球面座標をカメラの位置に適用
-      camera.position.x = 5 * Math.sin(lon * Math.PI / 180) * Math.cos(lat * Math.PI / 180);
-      camera.position.y = 5 * Math.sin(lat * Math.PI / 180);
-      camera.position.z = 5 * Math.cos(lon * Math.PI / 180) * Math.cos(lat * Math.PI / 180);
-      camera.lookAt(scene.position);
-
-      // レンダリング
-      renderer.render(scene, camera);
-    }
-
-    // アニメーションを開始
-    animate();
-  </script>
-</body>
+      document.body.appendChild(renderer.domElement);
+      
+      // ライトを作成
+      const ambientLight = new THREE.AmbientLight(0x404040);
+      scene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.set(1, 1, 1).normalize();
+      scene.add(directionalLight);
+      
+      // GLTFローダーを作成
+      const loader = new THREE.GLTFLoader();
+      
+      // monkey.gltfを読み込む
+      loader.load(
+        'monkey.gltf',
+        function(gltf) {
+          scene.add(gltf.scene);
+        },
+        undefined,
+        function(error) {
+          console.error(error);
+        }
+      );
+      
+      // アニメーションループ
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script>
+  </body>
 </html>
