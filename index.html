@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GLTFモデルの表示と回転</title>
+    <title>3Dモデル表示</title>
     <style>
         #canvas {
             width: 800px;
             height: 600px;
+        }
+
+        body {
+            background-color: purple;
+            margin: 0;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -32,13 +38,8 @@
             camera.position.z = 5;
 
             // ライトの作成
-            const light = new THREE.DirectionalLight(0xffffff, 1);
-            light.position.set(0, 2, 2);
+            const light = new THREE.AmbientLight(0xffffff);
             scene.add(light);
-
-            // ヘルパーの作成
-            const helper = new THREE.AxesHelper(3);
-            scene.add(helper);
 
             // GLTFLoaderのインスタンスを作成
             const loader = new THREE.GLTFLoader();
@@ -47,25 +48,13 @@
             loader.load(
                 'monkey.gltf',  // モデルファイルのパス
                 function (gltf) {
-                    const model = gltf.scene;
-                    model.position.set(0, 0, 0);
-                    model.scale.set(1, 1, 1);
-                    scene.add(model);
+                    scene.add(gltf.scene);
                 },
                 undefined,
                 function (error) {
                     console.error(error);
                 }
             );
-
-            // モデルの回転
-            function rotateModel() {
-                if (model) {
-                    model.rotation.y += 0.01;
-                }
-                requestAnimationFrame(rotateModel);
-            }
-            rotateModel();
 
             // アニメーションのループ
             function animate() {
