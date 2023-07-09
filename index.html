@@ -32,7 +32,7 @@
             camera.position.z = 5;
 
             // ライトの作成
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.0);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 2.3);
             directionalLight.position.set(0, 1, 1);
             scene.add(directionalLight);
 
@@ -41,7 +41,7 @@
 
             // モデルの読み込み
             loader.load(
-                'girl8.gltf',  // モデルファイルのパス
+                'girl10.gltf',  // モデルファイルのパス
                 function (gltf) {
                     const model = gltf.scene;
                     scene.add(model);
