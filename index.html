@@ -10,43 +10,50 @@
     </style>
 </head>
 <body>
+    <canvas id="canvas"></canvas>
+
     <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/build/three.js"></script>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/examples/js/loaders/GLTFLoader.js"></script>
 
     <script>
-        // レンダラーの作成
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        // ウェブページの読み込みが完了したら実行
+        window.addEventListener('DOMContentLoaded', init);
 
-        // シーンの作成
-        const scene = new THREE.Scene();
+        function init() {
+            // レンダラーの作成
+            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+            renderer.setSize(window.innerWidth, window.innerHeight);
 
-        // カメラの作成
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.z = 5;
+            // シーンの作成
+            const scene = new THREE.Scene();
 
-        // GLTFLoaderのインスタンスを作成
-        const loader = new THREE.GLTFLoader();
+            // カメラの作成
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 5;
 
-        // モデルの読み込み
-        loader.load(
-            'monkey.gltf',  // モデルファイルのパス
-            function (gltf) {
-                scene.add(gltf.scene);
-            },
-            undefined,
-            function (error) {
-                console.error(error);
+            // GLTFLoaderのインスタンスを作成
+            const loader = new THREE.GLTFLoader();
+
+            // モデルの読み込み
+            loader.load(
+                'monkey.gltf',  // モデルファイルのパス
+                function (gltf) {
+                    const model = gltf.scene;
+                    scene.add(model);
+                },
+                undefined,
+                function (error) {
+                    console.error(error);
+                }
+            );
+
+            // アニメーションのループ
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
             }
-        );
-
-        // アニメーションのループ
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
+            animate();
         }
-        animate();
     </script>
 </body>
 </html>
