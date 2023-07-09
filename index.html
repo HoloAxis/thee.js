@@ -6,13 +6,13 @@
         body {
             margin: 0;
             overflow: hidden;
-            background-color: ;red
         }
     </style>
 </head>
 <body>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/build/three.js"></script>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/examples/js/controls/OrbitControls.js"></script>
 
     <script>
         // ウェブページの読み込みが完了したら実行
@@ -30,25 +30,15 @@
             // カメラの作成
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
             camera.position.z = 5;
-            // camera(カメラ)をマウス操作する設定　
-            //var controls = new THREE.OrbitControls(camera);
 
             // ライトの作成
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0); // 白色の平行光源
-            directionalLight.position.set(0, 1, 1); // 光源の位置を設定
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+            directionalLight.position.set(0, 1, 1);
             scene.add(directionalLight);
 
-            // camera(カメラ)をマウス操作する設定　
-            //var controls = new THREE.OrbitControls(camera);
-            
-            // 背景色を設定
-            scene.background = new THREE.Color(0xff00000);
-
-
-            
             // GLTFLoaderのインスタンスを作成
             const loader = new THREE.GLTFLoader();
-    
+
             // モデルの読み込み
             loader.load(
                 'monkey.gltf',  // モデルファイルのパス
@@ -62,14 +52,19 @@
                 }
             );
 
-            // 背景色を設定
-            scene.background = new THREE.Color(0xffff00);
-            
-            
-            
+            // カメラコントロールの作成
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
             // アニメーションのループ
             function animate() {
                 requestAnimationFrame(animate);
+
+                // カメラコントロールの更新
+                controls.update();
+
+                // 照明の位置をカメラに合わせる
+                directionalLight.position.copy(camera.position);
+
                 renderer.render(scene, camera);
             }
             animate();
@@ -77,4 +72,3 @@
     </script>
 </body>
 </html>
-\\\\
