@@ -38,12 +38,13 @@
             directionalLight.position.set(0, 1, 1); // 光源の位置を設定
             scene.add(directionalLight);
 
+            // camera(カメラ)をマウス操作する設定　
+            var controls = new THREE.OrbitControls(camera);
             
             // 背景色を設定
             scene.background = new THREE.Color(0xff00000);
 
-            // camera(カメラ)をマウス操作する設定　
-            var controls = new THREE.OrbitControls(camera);
+
             
             // GLTFLoaderのインスタンスを作成
             const loader = new THREE.GLTFLoader();
