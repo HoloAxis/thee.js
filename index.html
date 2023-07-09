@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GLTFモあああああデルの表示</title>
+    <title>GLTFモデルの表示</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
+            background-color: yellow;
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-
     <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/build/three.js"></script>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/examples/js/loaders/GLTFLoader.js"></script>
 
@@ -21,8 +20,9 @@
 
         function init() {
             // レンダラーの作成
-            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+            const renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
             // シーンの作成
             const scene = new THREE.Scene();
@@ -30,6 +30,9 @@
             // カメラの作成
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
             camera.position.z = 5;
+
+            // 背景色を設定
+            scene.background = new THREE.Color(0xffff00);
 
             // GLTFLoaderのインスタンスを作成
             const loader = new THREE.GLTFLoader();
