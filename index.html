@@ -42,6 +42,9 @@
             // 背景色を設定
             scene.background = new THREE.Color(0xff00000);
 
+            // camera(カメラ)をマウス操作する設定　
+            var controls = new THREE.OrbitControls(camera);
+            
             // GLTFLoaderのインスタンスを作成
             const loader = new THREE.GLTFLoader();
     
@@ -61,8 +64,7 @@
             // 背景色を設定
             scene.background = new THREE.Color(0xffff00);
             
-            // camera(カメラ)をマウス操作する設定　
-            var controls = new THREE.OrbitControls(camera);
+            
             
             // アニメーションのループ
             function animate() {
