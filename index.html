@@ -31,10 +31,16 @@
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
             camera.position.z = 5;
             // camera(カメラ)をマウス操作する設定　
-            var controls = new THREE.OrbitControls(camera);
+            //var controls = new THREE.OrbitControls(camera);
 
+            // ライトの作成
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0); // 白色の平行光源
+            directionalLight.position.set(0, 1, 1); // 光源の位置を設定
+            scene.add(directionalLight);
+
+            
             // 背景色を設定
-            scene.background = new THREE.Color(0xffff00);
+            scene.background = new THREE.Color(0xff00000);
 
             // GLTFLoaderのインスタンスを作成
             const loader = new THREE.GLTFLoader();
