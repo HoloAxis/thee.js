@@ -55,10 +55,19 @@
             // カメラコントロールの作成
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-            // 背景色を設定
-            scene.background = new THREE.Color(0xffff00);
+            // テクスチャの読み込みと背景への設定
+            const textureLoader = new THREE.TextureLoader();
+            textureLoader.load(
+                'star.png',  // 背景画像のパス
+                function (texture) {
+                    scene.background = texture;
+                },
+                undefined,
+                function (error) {
+                    console.error(error);
+                }
+            );
 
-            
             // アニメーションのループ
             function animate() {
                 requestAnimationFrame(animate);
