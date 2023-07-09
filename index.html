@@ -1,16 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>簡単なHTML</title>
+    <title>Three.jsでGLTFファイルを読み込む</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is a simple HTML page.</p>
-    <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
-    </ul>
-    <a href="https://www.example.com">Visit Example.com</a>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/build/three.js"></script>
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/r129/examples/js/loaders/GLTFLoader.js"></script>
+
+    <script>
+        // レンダラーの作成
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // シーンの作成
+        const scene = new THREE.Scene();
+
+        // カメラの作成
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.z = 5;
+
+        // ライトの作成
+        const light = new THREE.AmbientLight(0xffffff);
+        scene.add(light);
+
+        // GLTFLoaderのインスタンスを作成
+        const loader = new THREE.GLTFLoader();
+
+        // モデルの読み込み
+        loader.load(
+            'path/to/monkey.gltf',  // モデルファイルのパスを正しく指定してください
+            function (gltf) {
+                scene.add(gltf.scene);
+            },
+            undefined,
+            function (error) {
+                console.error(error);
+            }
+        );
+
+        // アニメーションのループ
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
 </body>
 </html>
