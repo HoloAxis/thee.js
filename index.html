@@ -30,9 +30,10 @@
             // カメラの作成
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
             camera.position.z = 5;
+            camera.position.y = 100;
 
             // ライトの作成
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 10.5);
             directionalLight.position.set(0, 1, 1);
             scene.add(directionalLight);
 
@@ -41,7 +42,7 @@
 
             // モデルの読み込み
             loader.load(
-                'opanchu6.gltf',  // モデルファイルのパス
+                'opanchu7.gltf',  // モデルファイルのパス
                 function (gltf) {
                     const model = gltf.scene;
                     scene.add(model);
