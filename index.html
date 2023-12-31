@@ -46,6 +46,7 @@
                 function (gltf) {
                     const model = gltf.scene;
                     scene.add(model);
+                    model.scale.set(2,2,2);   
                 },
                 undefined,
                 function (error) {
